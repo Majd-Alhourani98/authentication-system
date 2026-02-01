@@ -15,8 +15,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node app",
-    "dev": "nodemon app",
+    "start": "node server",
+    "dev": "nodemon server",
     "format": "prettier --write ."
   },
   "dependencies": {
