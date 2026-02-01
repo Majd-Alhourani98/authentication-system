@@ -20,7 +20,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "express": "^4.22.1"
+    "express": "^4.22.1",
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11",
