@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 
-const DB_URL = process.env.DATABASE_URL.replace('<USERNAME>', process.env.DATABASE_USERNAME)
-  .replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
-  .replace('<DATABASE_NAME>', process.env.DATABASE_NAME);
+const buildDatabaseURL = (databaseURL, username, password, dbname) => {
+  return databaseURL.replace('<USERNAME>', username).replace('<PASSWORD>', password).replace('<DATABASE_NAME>', dbname);
+};
+
+const { DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME } = process.env;
+
+const DB_URL = buildDatabaseURL(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
 
 const connectDB = async () => {
   try {
