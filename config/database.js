@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-
-const buildDatabaseURL = (databaseURL, username, password, dbname) => {
-  return databaseURL.replace('<USERNAME>', username).replace('<PASSWORD>', password).replace('<DATABASE_NAME>', dbname);
-};
+const buildDatabaseURL = require('../utils/buildDatabaseURL');
 
 const { DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME } = process.env;
 
