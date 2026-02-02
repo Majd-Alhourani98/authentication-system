@@ -7,13 +7,17 @@ const app = require('./app');
 
 const DB_URL = 'mongodb://localhost:27017/authentication';
 
-mongoose
-  .connect(DB_URL)
-  .then(() => console.log('✅ Successfully connected to the database'))
-  .catch(err => {
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(DB_URL);
+    console.log('✅ Successfully connected to the database');
+  } catch (error) {
     console.error('❌ Database connection error:', err.message);
     process.exit(1);
-  });
+  }
+};
+
+connectDB();
 
 // Start the server and listen for incoming connections
 const PORT = process.env.PORT || 5000;
