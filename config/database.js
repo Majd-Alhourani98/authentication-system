@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-const DB_URL = 'mongodb://localhost:27017/authentication';
+const DB_URL = process.env.DATABASE_URL.replace('<USERNAME>', process.env.DATABASE_USERNAME)
+  .replace('<PASSWORD>', process.env.DATABASE_PASSWORD)
+  .replace('<DATABASE_NAME>', process.env.DATABASE_NAME);
 
 const connectDB = async () => {
   try {
