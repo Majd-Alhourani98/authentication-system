@@ -1,7 +1,19 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+const mongoose = require('mongoose');
+
 const app = require('./app');
+
+const DB_URL = 'mongodb://localhost:27017/authentication';
+
+mongoose
+  .connect(DB_URL)
+  .then(() => console.log('✅ Successfully connected to the database'))
+  .catch(err => {
+    console.error('❌ Database connection error:', err.message);
+    process.exit(1);
+  });
 
 // Start the server and listen for incoming connections
 const PORT = process.env.PORT || 5000;
