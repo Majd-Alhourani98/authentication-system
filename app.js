@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 
+const authRouter = require('./routes/auth.routes');
+
 const app = express();
 
 app.use(express.json());
@@ -14,5 +16,7 @@ app.get('/health', (req, res) => {
     message: 'API is healthy and running smoothly 🚀',
   });
 });
+
+app.use('/api/v1/auth', authRouter);
 
 module.exports = app;
