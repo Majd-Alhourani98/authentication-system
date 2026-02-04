@@ -1,12 +1,15 @@
 const argon2 = require('argon2');
 
+// Argon2 Configuration Constants
+const HASH_OPTIONS = {
+  type: argon2.argon2id,
+  memoryCost: Number(process.env.HASH_MEMORY_COST) || 2 ** 16,
+  timeCost: Number(process.env.HASH_TIME_COST) || 3,
+  parallelism: Number(process.env.HASH_PARALLELISM) || 1,
+};
+
 const hashPassword = async password => {
-  return await argon2.hash(password, {
-    type: argon2.argon2id, // Hybrid mode: protects against both side-channel and GPU attacks
-    memoryCost: 2 ** 16, // 64MB - adjusts memory usage
-    timeCost: 3, // Number of iterations
-    parallelism: 1, // Number of threads to use
-  });
+  return await argon2.hash(password, HASH_OPTIONS);
 };
 
 module.exports = hashPassword;
