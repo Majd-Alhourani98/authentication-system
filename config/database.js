@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const buildDatabaseURL = require('../utils/buildDatabaseURL');
 
-const { DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME } = process.env;
+// const { DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME } = process.env;
 
-const DB_URL = buildDatabaseURL(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
+// const DB_URL = buildDatabaseURL(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_NAME);
 
+const DB_URL = 'mongodb://localhost:27017/authentication';
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(DB_URL);
