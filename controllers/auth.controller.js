@@ -6,6 +6,8 @@ const signup = async (req, res) => {
 
     const user = await User.create({ name, email, password, passwordConfirm });
 
+    user.password = undefined;
+
     res.status(201).json({
       status: 'success',
       message: 'User created successfully. Welcome aboard!',
