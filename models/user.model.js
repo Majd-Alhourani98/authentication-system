@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const argon2 = require('argon2');
 
 const userSchema = new mongoose.Schema(
   {
@@ -54,12 +54,8 @@ userSchema.pre('save', async function () {
   // when updating other fields like name or email
   if (!this.isModified('password')) return;
 
-  // Hash the password using bcrypt with a cost factor of 12
-  // Higher cost factor = more secure but slightly slower
-  this.password = await bcrypt.hash(this.password, 12);
+  this.password = await argon2.hash(this.password);
 
-  // Remove passwordConfirm field so it is NOT stored in the database
-  // It is only used for validation during signup
   this.passwordConfirm = undefined;
 });
 
