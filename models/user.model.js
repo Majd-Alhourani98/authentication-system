@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const argon2 = require('argon2');
+const hashPassword = require('../utils/argon2');
 
 const userSchema = new mongoose.Schema(
   {
@@ -54,13 +54,7 @@ userSchema.pre('save', async function () {
   // when updating other fields like name or email
   if (!this.isModified('password')) return;
 
-  this.password = await argon2.hash(this.password, {
-    type: argon2.argon2id, // Hybrid mode: protects against both side-channel and GPU attacks
-    memoryCost: 2 ** 16, // 64MB - adjusts memory usage
-    timeCost: 3, // Number of iterations
-    parallelism: 1, // Number of threads to use
-  });
-
+  this.password = await hashPassword(this.password);
   this.passwordConfirm = undefined;
 });
 
