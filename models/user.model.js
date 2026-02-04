@@ -47,8 +47,19 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Pre-save middleware: runs before a document is saved to the database
 userSchema.pre('save', async function () {
+  // Only hash the password if it has been modified (or is new)
+  // This prevents re-hashing an already hashed password
+  // when updating other fields like name or email
+  if (!this.isModified('password')) return;
+
+  // Hash the password using bcrypt with a cost factor of 12
+  // Higher cost factor = more secure but slightly slower
   this.password = await bcrypt.hash(this.password, 12);
+
+  // Remove passwordConfirm field so it is NOT stored in the database
+  // It is only used for validation during signup
   this.passwordConfirm = undefined;
 });
 
