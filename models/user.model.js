@@ -80,13 +80,29 @@ userSchema.pre('save', async function () {
   const base = this.name.replace(/\s+/g, '-').toLowerCase();
   let username = `${base}_${generateUsernameSuffix()}`;
 
-  let doc = await User.findOne({ username }).select('id').lean();
+  // Check the "Fast Path" first
+  let doc = await User.findOne({ username }).select('_id').lean();
 
-  while (doc) {
-    username = `${base}_${generateUsernameSuffix()}`;
-    doc = await User.findOne({ username }).select('id').lean();
+  if (!doc) {
+    this.username = username;
+    return; // Fast exit
   }
 
+  let attempts = 0;
+
+  // 1. Try up to 5 times to find a "Name + Suffix" combination
+  while (doc && attempts < 5) {
+    attempts++;
+    username = `${base}_${generateUsernameSuffix()}`;
+    doc = await User.findOne({ username }).select('_id').lean();
+  }
+
+  // 2. Safety Fallback: If still not unique, generate a long random suffix
+  if (doc) {
+    username = `${base}_${generateUsernameSuffix(10)}`;
+  }
+
+  // 3. Final Assignment
   this.username = username;
 });
 
