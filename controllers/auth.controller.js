@@ -1,10 +1,20 @@
 const User = require('../models/user.model');
+const { generateUsernameSuffix } = require('../utils/nanoid');
 
 const signup = async (req, res) => {
   try {
     const { name, email, password, passwordConfirm } = req.body;
 
-    const user = await User.create({ name, email, password, passwordConfirm });
+    const base = name.replace(/\s+/g, '-').toLowerCase();
+    let username = `${base}_${generateUsernameSuffix()}`;
+
+    let doc = await User.findOne({ username }).select('id').lean();
+    while (doc) {
+      let username = `${base}_${generateUsernameSuffix()}`;
+      doc = await User.findOne({ username }).select('id').lean();
+    }
+
+    const user = await User.create({ name, email, password, passwordConfirm, username });
 
     res.status(201).json({
       status: 'success',
