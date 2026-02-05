@@ -47,6 +47,14 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+userSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    delete ret.password;
+
+    return ret;
+  },
+});
+
 // Pre-save middleware: runs before a document is saved to the database
 userSchema.pre('save', async function () {
   // Only hash the password if it has been modified (or is new)
