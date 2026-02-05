@@ -50,6 +50,19 @@ const userSchema = new mongoose.Schema(
         message: 'Passwords do not match. Please try again.',
       },
     },
+
+    isEmailVerified: {
+      type: String,
+      default: false,
+    },
+
+    emailVerificationOTP: {
+      type: String,
+    },
+
+    emailVerificationOTPExpiresAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
