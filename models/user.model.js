@@ -74,7 +74,8 @@ userSchema.pre('save', async function () {
 });
 
 userSchema.pre('save', async function () {
-  if (this.username) return;
+  // Only run this if the document is new and has a name
+  if (!this.isNew || !this.name) return;
 
   const base = this.name.replace(/\s+/g, '-').toLowerCase();
   let username = `${base}_${generateUsernameSuffix()}`;
@@ -82,7 +83,7 @@ userSchema.pre('save', async function () {
   let doc = await User.findOne({ username }).select('id').lean();
 
   while (doc) {
-    let username = `${base}_${generateUsernameSuffix()}`;
+    username = `${base}_${generateUsernameSuffix()}`;
     doc = await User.findOne({ username }).select('id').lean();
   }
 
