@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { getExpiryDate } = require('./date');
+const { getExpiryDate, currentTime } = require('./date');
 
 const OTP = {
   LENGTH: 6,

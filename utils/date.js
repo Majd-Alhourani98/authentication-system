@@ -2,4 +2,8 @@ const getExpiryDate = ttlMs => {
   return new Date(Date.now() + ttlMs);
 };
 
-module.exports = { getExpiryDate };
+const currentTime = () => {
+  return new Date(Date.now());
+};
+
+module.exports = { getExpiryDate, currentTime };
