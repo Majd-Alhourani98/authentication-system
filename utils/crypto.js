@@ -13,15 +13,10 @@ const getExpiryDate = ttlMs => {
   return new Date(Date.now() + ttlMs);
 };
 
-const generateSecureOTP = (length = OTP.LENGTH, expiryDurationsMs = OTP.TTL_MS) => {
-  let otp = '';
-
-  for (let i = 0; i < length; i++) {
-    otp += crypto.randomInt(0, 10);
-  }
-
+const generateSecureOTP = (length = OTP.LENGTH, ttlMs = OTP.TTL_MS) => {
+  const otp = String(crypto.randomInt(0, 1_000_000));
   const hashedOTP = hashValue(otp);
-  const otpExpires = getExpiryDate(expiryDurationsMs);
+  const otpExpires = getExpiryDate(ttlMs);
   return { otp, hashedOTP, otpExpires };
 };
 
