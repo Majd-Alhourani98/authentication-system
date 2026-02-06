@@ -70,6 +70,8 @@ const userSchema = new mongoose.Schema(
 userSchema.set('toJSON', {
   transform: function (doc, ret) {
     delete ret.password;
+    delete ret.emailVerificationOTP;
+    delete ret.emailVerificationOTPExpiresAt;
 
     return ret;
   },
