@@ -1,5 +1,9 @@
 const crypto = require('crypto');
 
+const hashValue = value => {
+  return crypto.createHash('sha256').update(value).digest('hex');
+};
+
 const generateSecureOTP = () => {
   let otp = '';
 
@@ -7,7 +11,7 @@ const generateSecureOTP = () => {
     otp += crypto.randomInt(0, 10);
   }
 
-  const hashedOTP = crypto.createHash('sha256').update(otp).digest('hex');
+  const hashedOTP = hashValue(otp);
   const otpExpires = new Date(Date.now() + 15 * 60 * 1000);
   return { otp, hashedOTP, otpExpires };
 };
