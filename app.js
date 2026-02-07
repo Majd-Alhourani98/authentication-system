@@ -20,10 +20,13 @@ app.get('/health', (req, res) => {
 app.use('/api/v1/auth', authRouter);
 
 app.all('*', (req, res, next) => {
-  res.status(404).json({
+  const error = {
+    statusCode: 404,
     status: 'fail',
     message: `Can't find ${req.originalUrl} on this server`,
-  });
+  };
+
+  next(error);
 });
 
 app.use((err, req, res, next) => {
