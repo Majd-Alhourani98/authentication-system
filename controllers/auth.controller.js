@@ -6,12 +6,15 @@ const signup = async (req, res) => {
 
     const user = await User.create({ name, email, password, passwordConfirm });
 
+    const otp = user.generateEmailVerificationOTP();
+    await user.save({ validateBeforeSave: false });
+
     res.status(201).json({
       status: 'success',
       message: 'User created successfully. Welcome aboard!',
       requestedAt: new Date().toISOString(),
       data: { user },
-      otp: user.otp,
+      otp: otp,
     });
   } catch (err) {
     res.status(400).json({

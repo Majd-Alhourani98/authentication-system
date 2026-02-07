@@ -122,14 +122,14 @@ userSchema.pre('save', async function () {
   this.username = username;
 });
 
-userSchema.pre('save', function () {
+userSchema.methods.generateEmailVerificationOTP = function () {
   const { otp, hashedOTP, otpExpires } = generateSecureOTP();
 
   this.emailVerificationOTP = hashedOTP;
   this.emailVerificationOTPExpiresAt = otpExpires;
 
-  this.otp = otp;
-});
+  return otp;
+};
 
 const User = mongoose.model('User', userSchema);
 
