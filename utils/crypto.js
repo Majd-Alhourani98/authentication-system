@@ -17,4 +17,4 @@ const generateSecureOTP = (length = OTP.LENGTH, ttlMs = OTP.TTL_MS) => {
   return { otp, hashedOTP, otpExpires };
 };
 
-console.log(generateSecureOTP());
+module.exports = { generateSecureOTP };
