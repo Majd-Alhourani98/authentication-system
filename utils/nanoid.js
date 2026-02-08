@@ -8,5 +8,9 @@ const generateUsernameSuffix = (length = DEFAULT_LENGTH) => {
   return customAlphabet(ALPHANUMERIC_CHARSET, length)();
 };
 
-console.log(generateUsernameSuffix());
-module.exports = { generateUsernameSuffix };
+const generateErrorId = (length = DEFAULT_LENGTH) => {
+  // customAlphabet returns a generator function, which we call immediately with ()
+  return customAlphabet(ALPHANUMERIC_CHARSET, length)();
+};
+
+module.exports = { generateUsernameSuffix, generateErrorId };
