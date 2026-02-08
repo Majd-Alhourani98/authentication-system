@@ -10,7 +10,7 @@ const signup = catchAsync(async (req, res) => {
 
   await user.save();
 
-  res.status(201).json({
+  return res.status(201).json({
     status: 'success',
     message: 'User created successfully. Welcome aboard!',
     requestedAt: new Date().toISOString(),

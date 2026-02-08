@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get('/health', (req, res) => {
-  res.status(200).json({
+  return res.status(200).json({
     status: 'success',
     startedAt: new Date(Date.now() - process.uptime() * 1000).toLocaleString(),
     message: 'API is healthy and running smoothly 🚀',
