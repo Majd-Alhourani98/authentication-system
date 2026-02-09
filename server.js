@@ -1,3 +1,9 @@
+process.on('uncaughtException', err => {
+  console.error('🔥🔥 UNCAUGHT EXCEPTION 💥 Shutting down...');
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
 const dotenv = require('dotenv');
 dotenv.config();
 
