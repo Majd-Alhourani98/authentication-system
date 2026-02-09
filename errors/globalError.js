@@ -1,4 +1,9 @@
 const { generateErrorId } = require('../utils/nanoid');
+const AppError = require('./AppError');
+
+const handleCastErrorDB = err => {
+  return new AppError(`Invalid ${err.path}: ${err.value}.`, 400);
+};
 
 const sendErrorDev = (err, res) => {
   return res.status(err.statusCode).json({
@@ -25,7 +30,7 @@ const sendErrorProd = (err, req, res) => {
     console.error(`Message:   ${err.message}`);
     console.error(`Stack:     ${err.stack}`);
     console.error(`Error:     ${err}`);
-    console.error('💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥');
+    console.error('💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥');
 
     // 2) Send professional, clean message to client
     return res.status(500).json({
@@ -43,7 +48,16 @@ const globalError = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    sendErrorProd(err, req, res);
+    let error = { ...err };
+    error.messge = err.message;
+    error.name = err.name;
+    error.code = err.code;
+
+    if (error.name === 'CastError') {
+      error = handleCastErrorDB(error);
+    }
+
+    sendErrorProd(error, req, res);
   }
 };
 
